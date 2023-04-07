@@ -1,9 +1,9 @@
 import { useLoaderData } from 'react-router-dom';
-import { MedicalSpecialty } from '../../entities/medical-specialty';
 import * as Icons from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
+import { MedicalSpecialty } from '~/entities/medical-specialty';
 
 export const Specialties = () => {
   const specialties = useLoaderData() as MedicalSpecialty[];

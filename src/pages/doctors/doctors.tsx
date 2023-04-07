@@ -1,8 +1,9 @@
 import { useLoaderData } from 'react-router-dom';
-import { Doctor } from '../../entities/doctor';
 import { Rate } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+
+import { Doctor } from '~/entities/doctor';
 
 export const Doctors = () => {
   const doctors = useLoaderData() as Doctor[];

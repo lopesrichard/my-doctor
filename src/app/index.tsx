@@ -1,6 +1,6 @@
 import { ConfigProvider } from 'antd';
+import { themes } from '~/themes';
 import { Router } from './routes';
-import { themes } from '../themes';
 
 export const App = () => {
   return (

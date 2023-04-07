@@ -1,5 +1,5 @@
 import { LoaderFunction } from 'react-router-dom';
-import { MedicalSpecialty } from '../../entities/medical-specialty';
+import { MedicalSpecialty } from '~/entities/medical-specialty';
 
 export const loader: LoaderFunction = async () => {
   const specialties: MedicalSpecialty[] = [

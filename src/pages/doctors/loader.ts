@@ -1,5 +1,5 @@
 import { LoaderFunction } from 'react-router-dom';
-import { Doctor } from '../../entities/doctor';
+import { Doctor } from '~/entities/doctor';
 
 export const loader: LoaderFunction = async ({ params }) => {
   const specialty = params.specialty;

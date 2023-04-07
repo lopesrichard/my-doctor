@@ -1,4 +1,4 @@
-import { DayOfWeek } from '../enums/day-of-week';
+import { DayOfWeek } from '~/enums/day-of-week';
 
 export type DoctorAvailability = {
   day_of_week: DayOfWeek;
