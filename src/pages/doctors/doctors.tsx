@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom';
-import { Rate } from 'antd';
+import * as Ant from 'antd';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -8,12 +8,13 @@ import { Doctor } from '~/entities/doctor';
 export const Doctors = () => {
   const doctors = useLoaderData() as Doctor[];
   return (
-    <div>
+    <Container>
       <Title>Médicos</Title>
-      <Container>
+      <Ant.Divider />
+      <Grid>
         {doctors.map(doctor => {
           return (
-            <Link to={doctor.registrationNumber}>
+            <Link key={doctor.registrationNumber} to={doctor.registrationNumber}>
               <Card key={doctor.registrationNumber}>
                 <Picture src={doctor.picture} />
                 <Rating value={doctor.rating} allowHalf />
@@ -23,8 +24,8 @@ export const Doctors = () => {
             </Link>
           );
         })}
-      </Container>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 
@@ -33,21 +34,23 @@ const Title = styled.h1`
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  width: 100%;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  text-align: center;
 `;
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px;
-  height: 350px;
-  padding: 20px;
-  color: black;
-  &hover {
-    opacity: 50%;
+  transition: 300ms opacity;
+  &:hover {
+    opacity: 70%;
   }
 `;
 
@@ -55,12 +58,12 @@ const Picture = styled.img`
   object-fit: cover;
   object-position: top;
   width: 100%;
-  min-height: 250px;
+  height: 300px;
   margin-bottom: 5px;
   border-radius: 20px;
 `;
 
-const Rating = styled(Rate)`
+const Rating = styled(Ant.Rate)`
   margin-bottom: 5px;
 `;
 

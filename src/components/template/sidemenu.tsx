@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 const items: Ant.MenuProps['items'] = [
   {
     key: 'appointments',
-    label: 'Meus Agendamentos',
+    label: 'Minhas consultas',
     icon: <MedicineBoxOutlined />,
   },
   {
@@ -26,6 +26,7 @@ const items: Ant.MenuProps['items'] = [
 const extractKeyFromPathname = (pathname: string) => pathname.split('/')[1];
 
 export const SideMenu = () => {
+  const breakpoints = Ant.Grid.useBreakpoint();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -37,7 +38,12 @@ export const SideMenu = () => {
   }, [location]);
 
   return (
-    <Sider width={300} collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+    <Sider
+      width={breakpoints.lg ? 300 : 150}
+      collapsible
+      collapsed={collapsed}
+      onCollapse={value => setCollapsed(value)}
+    >
       <Menu mode="inline" selectedKeys={[key]} items={items} onClick={evt => navigate(evt.key)} />
     </Sider>
   );

@@ -1,34 +1,31 @@
 import { Layout, Grid, Breakpoint } from 'antd';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { ResponsiveProps } from '~/types/responsive';
 
 export const Content = () => {
-  const screens = Grid.useBreakpoint();
+  const breakpoints = Grid.useBreakpoint();
   return (
-    <Background screens={screens}>
-      <Container>
+    <Background breakpoints={breakpoints}>
+      <Container breakpoints={breakpoints}>
         <Outlet />
       </Container>
     </Background>
   );
 };
 
-type BackgroundProps = {
-  screens: Partial<Record<Breakpoint, boolean>>;
-};
-
-const Background = styled(Layout.Content)<BackgroundProps>`
-  padding-top: ${props => (props.screens.lg ? '50px' : '10px')};
-  padding-bottom: ${props => (props.screens.lg ? '50px' : '10px')};
-  padding-left: ${props => (props.screens.lg ? '50px' : '10px')};
-  padding-right: ${props => (props.screens.lg ? '50px' : '10px')};
+const Background = styled(Layout.Content)<ResponsiveProps>`
+  padding-top: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
+  padding-bottom: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
+  padding-left: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
+  padding-right: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
   min-height: 100vh;
 `;
 
-const Container = styled.div`
+const Container = styled.div<ResponsiveProps>`
   display: flex;
   margin: 0 auto;
-  padding: 30px;
+  padding: ${({ breakpoints }) => (breakpoints.lg ? '30px' : '10px')};
   min-height: 100%;
   background-color: white;
 `;
