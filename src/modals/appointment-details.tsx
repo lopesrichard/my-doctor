@@ -33,8 +33,9 @@ export const AppointmentDetails: FunctionComponent<AppointmentDetailsProps> = ({
           <Descriptions.Item label="Status">
             <Badge {...badges[appointment.status]} />
           </Descriptions.Item>
-          <Descriptions.Item label="Data">{appointment.scheduledTo.toLocaleDateString()}</Descriptions.Item>
-          <Descriptions.Item label="Horário">{appointment.scheduledTo.toLocaleTimeString()}</Descriptions.Item>
+          <Descriptions.Item label="Data">
+            {appointment.scheduledTo.format('dddd, DD [de] MMMM [de] YYYY [às] HH[h]mm')}
+          </Descriptions.Item>
           <Descriptions.Item label="Médico Responsável">{appointment.doctor.fullname}</Descriptions.Item>
           <Descriptions.Item label="Endereço">{appointment.clinic.address.addressLine}</Descriptions.Item>
           <Descriptions.Item>

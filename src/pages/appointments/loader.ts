@@ -1,12 +1,14 @@
 import { LoaderFunction } from 'react-router-dom';
 import { Appointment } from '~/entities/appointment';
 import { AppointmentStatus } from '~/enums/appointment-status';
+import dayjs from 'dayjs';
 
 export const loader: LoaderFunction = async () => {
   const appointments: Appointment[] = [
     {
+      id: 1,
       status: AppointmentStatus.OPEN,
-      scheduledTo: new Date(2023, 3, 23, 12, 30),
+      scheduledTo: dayjs('2023-04-02T01:30'),
       doctor: {
         fullname: 'Rogério Cunha Andrade',
         picture:
@@ -22,8 +24,9 @@ export const loader: LoaderFunction = async () => {
       },
     },
     {
+      id: 2,
       status: AppointmentStatus.OPEN,
-      scheduledTo: new Date(2023, 3, 15, 16, 0),
+      scheduledTo: dayjs('2023-04-01T01:00'),
       doctor: {
         fullname: 'Rogério Cunha Andrade',
         picture:
@@ -39,8 +42,9 @@ export const loader: LoaderFunction = async () => {
       },
     },
     {
+      id: 3,
       status: AppointmentStatus.CANCELED,
-      scheduledTo: new Date(2023, 3, 3, 12, 30),
+      scheduledTo: dayjs('2023-04-03T12:30'),
       doctor: {
         fullname: 'Maria Cunha Andrade',
         picture:
@@ -56,8 +60,9 @@ export const loader: LoaderFunction = async () => {
       },
     },
     {
+      id: 4,
       status: AppointmentStatus.CONCLUDED,
-      scheduledTo: new Date(2023, 3, 1, 12, 30),
+      scheduledTo: dayjs('2023-04-01T12:30'),
       doctor: {
         fullname: 'Paula Rocha',
         picture:

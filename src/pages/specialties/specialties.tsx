@@ -16,7 +16,7 @@ export const Specialties = () => {
         {specialties.map(specialty => {
           const Icon = Icons[specialty.icon];
           return (
-            <Link key={specialty.code} to={`/doctors/${specialty.code}`}>
+            <Link key={specialty.code} to={`/doctors?specialty=${specialty.code}`}>
               <Box>
                 <Icon css={styles.icon} />
                 <Description>{specialty.description}</Description>

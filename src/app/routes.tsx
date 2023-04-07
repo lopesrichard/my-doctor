@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { Specialties, loader as SpecialtiesLoader } from '~/pages/specialties';
 import { Appointments, loader as AppointmentsLoader } from '~/pages/appointments';
 import { Doctors, loader as DoctorsLoader } from '~/pages/doctors';
+import { DoctorPanel, loader as DoctorLoader } from '~/pages/doctor';
 import { Template } from '~/components/template';
 
 export const Router = () => {
@@ -11,17 +12,22 @@ export const Router = () => {
       path: '/',
       element: <Template />,
       children: [
-        { path: '/', element: <Navigate to="specialties" /> },
-        { path: '/specialties', element: <Specialties />, loader: SpecialtiesLoader },
+        { path: '/', element: <Navigate to="appointments" /> },
         {
           path: '/appointments',
           element: <Appointments />,
           loader: AppointmentsLoader,
         },
+        { path: '/specialties', element: <Specialties />, loader: SpecialtiesLoader },
         {
-          path: '/doctors/:specialty?',
+          path: '/doctors',
           element: <Doctors />,
           loader: DoctorsLoader,
+        },
+        {
+          path: '/doctors/:registrationNumber?',
+          element: <DoctorPanel />,
+          loader: DoctorLoader,
         },
       ],
     },

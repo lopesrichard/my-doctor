@@ -10,6 +10,7 @@ import { ActionButton } from '~/components/template/action-button';
 import { useState } from 'react';
 import { AppointmentDetails } from '~/modals/appointment-details';
 import { ClassNames } from '@emotion/react';
+import { Dayjs } from 'dayjs';
 
 export const Appointments = () => {
   const appointments = useLoaderData() as Appointment[];
@@ -34,7 +35,6 @@ export const Appointments = () => {
 
   const columns: ColumnsType<Appointment> = [
     {
-      key: 'cancel',
       width: 50,
       render: (appointment: Appointment) =>
         appointment.status === AppointmentStatus.OPEN ? (
@@ -53,7 +53,7 @@ export const Appointments = () => {
     {
       dataIndex: 'scheduledTo',
       title: 'Data',
-      render: (scheduled: Date) => scheduled.toLocaleString(),
+      render: (scheduled: Dayjs) => scheduled.format('DD/MM/YYYY HH[h]mm'),
     },
     {
       dataIndex: 'doctor',
@@ -82,6 +82,7 @@ export const Appointments = () => {
               dataSource={appointments}
               onRow={appointment => ({ onClick: () => setAppointment(appointment) })}
               rowClassName={css({ cursor: 'pointer ' })}
+              rowKey={appointment => appointment.id}
             />
           )}
         </ClassNames>

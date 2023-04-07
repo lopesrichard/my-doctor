@@ -1,3 +1,4 @@
+import { Appointment } from './appointment';
 import { DoctorAvailability } from './doctor-availability';
 import { MedicalSpecialty } from './medical-specialty';
 
@@ -8,4 +9,5 @@ export type Doctor = {
   rating: number;
   availability: DoctorAvailability[];
   specialties: MedicalSpecialty[];
+  appointments: Pick<Appointment, 'scheduledTo'>[];
 };

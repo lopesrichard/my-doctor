@@ -13,6 +13,9 @@ dependencies:
   antd:
     specifier: ^5.4.0
     version: 5.4.0(react-dom@18.2.0)(react@18.2.0)
+  dayjs:
+    specifier: ^1.11.7
+    version: 1.11.7
   leaflet:
     specifier: ^1.9.3
     version: 1.9.3

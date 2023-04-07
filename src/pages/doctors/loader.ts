@@ -1,8 +1,10 @@
 import { LoaderFunction } from 'react-router-dom';
 import { Doctor } from '~/entities/doctor';
+import dayjs from 'dayjs';
 
-export const loader: LoaderFunction = async ({ params }) => {
-  const specialty = params.specialty;
+export const loader: LoaderFunction = async ({ request }) => {
+  const searchParams = new URL(request.url).searchParams;
+  const specialty = searchParams.get('specialty');
   const doctors: Doctor[] = [
     {
       fullname: 'Rogério Cunha Andrade',
@@ -12,9 +14,10 @@ export const loader: LoaderFunction = async ({ params }) => {
       rating: 5,
       specialties: [{ code: 'cardiology', description: 'Cardiologia', icon: 'HeartOutlined' }],
       availability: [
-        { day_of_week: 1, start_time: new Date(0, 0, 0, 8, 0, 0), end_time: new Date(0, 0, 0, 10, 0) },
-        { day_of_week: 1, start_time: new Date(0, 0, 0, 14, 0, 0), end_time: new Date(0, 0, 0, 18, 0) },
+        { day_of_week: 1, start_time: dayjs('08:00', 'HH:mm'), end_time: dayjs('10:00', 'HH:mm') },
+        { day_of_week: 1, start_time: dayjs('14:00', 'HH:mm'), end_time: dayjs('18:00', 'HH:mm') },
       ],
+      appointments: [],
     },
     {
       fullname: 'Maria Cunha Andrade',
@@ -23,7 +26,8 @@ export const loader: LoaderFunction = async ({ params }) => {
         'https://img.freepik.com/fotos-gratis/enfermeira-negra-em-seu-espaco-de-trabalho_52683-100580.jpg?w=900&t=st=1680832647~exp=1680833247~hmac=83311ffd1d5b6d1cf6edbae7bb5dcb03ef157708db39352a6695a0c35c46ee16',
       rating: 4,
       specialties: [{ code: 'pediatric-surgery', description: 'Cirurgia Pediátrica', icon: 'MedicineBoxOutlined' }],
-      availability: [{ day_of_week: 2, start_time: new Date(0, 0, 0, 12, 0, 0), end_time: new Date(0, 0, 0, 16, 0) }],
+      availability: [{ day_of_week: 2, start_time: dayjs('12:00', 'HH:mm'), end_time: dayjs('16:00', 'HH:mm') }],
+      appointments: [],
     },
     {
       fullname: 'Paula Rocha',
@@ -33,10 +37,11 @@ export const loader: LoaderFunction = async ({ params }) => {
       rating: 4.5,
       specialties: [{ code: 'radiology', description: 'Radiologia', icon: 'FundProjectionScreenOutlined' }],
       availability: [
-        { day_of_week: 1, start_time: new Date(0, 0, 0, 9, 0, 0), end_time: new Date(0, 0, 0, 12, 0) },
-        { day_of_week: 2, start_time: new Date(0, 0, 0, 14, 0, 0), end_time: new Date(0, 0, 0, 18, 0) },
-        { day_of_week: 3, start_time: new Date(0, 0, 0, 8, 0, 0), end_time: new Date(0, 0, 0, 10, 0) },
+        { day_of_week: 1, start_time: dayjs('09:00', 'HH:mm'), end_time: dayjs('12:00', 'HH:mm') },
+        { day_of_week: 2, start_time: dayjs('14:00', 'HH:mm'), end_time: dayjs('18:00', 'HH:mm') },
+        { day_of_week: 3, start_time: dayjs('08:00', 'HH:mm'), end_time: dayjs('10:00', 'HH:mm') },
       ],
+      appointments: [],
     },
     {
       fullname: 'Luisa Fernanda Garcia',
@@ -49,9 +54,10 @@ export const loader: LoaderFunction = async ({ params }) => {
         { code: 'cosmetic-surgery', description: 'Cirurgia Plástica', icon: 'SmileOutlined' },
       ],
       availability: [
-        { day_of_week: 3, start_time: new Date(0, 0, 0, 9, 0, 0), end_time: new Date(0, 0, 0, 13, 0) },
-        { day_of_week: 4, start_time: new Date(0, 0, 0, 14, 0, 0), end_time: new Date(0, 0, 0, 18, 0) },
+        { day_of_week: 3, start_time: dayjs('09:00', 'HH:mm'), end_time: dayjs('13:00', 'HH:mm') },
+        { day_of_week: 4, start_time: dayjs('14:00', 'HH:mm'), end_time: dayjs('18:00', 'HH:mm') },
       ],
+      appointments: [],
     },
     {
       fullname: 'Daniel Oliveira',
@@ -64,9 +70,10 @@ export const loader: LoaderFunction = async ({ params }) => {
         { code: 'psychiatry', description: 'Psiquiatria', icon: 'UserOutlined' },
       ],
       availability: [
-        { day_of_week: 1, start_time: new Date(0, 0, 0, 10, 0, 0), end_time: new Date(0, 0, 0, 14, 0) },
-        { day_of_week: 3, start_time: new Date(0, 0, 0, 15, 0, 0), end_time: new Date(0, 0, 0, 19, 0) },
+        { day_of_week: 1, start_time: dayjs('10:00', 'HH:mm'), end_time: dayjs('14:00', 'HH:mm') },
+        { day_of_week: 3, start_time: dayjs('15:00', 'HH:mm'), end_time: dayjs('19:00', 'HH:mm') },
       ],
+      appointments: [],
     },
     {
       fullname: 'Isabela Torres',
@@ -79,9 +86,10 @@ export const loader: LoaderFunction = async ({ params }) => {
         { code: 'obstetrics', description: 'Obstetrícia', icon: 'SafetyCertificateOutlined' },
       ],
       availability: [
-        { day_of_week: 2, start_time: new Date(0, 0, 0, 9, 0, 0), end_time: new Date(0, 0, 0, 13, 0) },
-        { day_of_week: 4, start_time: new Date(0, 0, 0, 14, 0, 0), end_time: new Date(0, 0, 0, 18, 0) },
+        { day_of_week: 2, start_time: dayjs('09:00', 'HH:mm'), end_time: dayjs('13:00', 'HH:mm') },
+        { day_of_week: 4, start_time: dayjs('14:00', 'HH:mm'), end_time: dayjs('18:00', 'HH:mm') },
       ],
+      appointments: [],
     },
   ];
 

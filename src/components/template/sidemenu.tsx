@@ -1,4 +1,4 @@
-import { MedicineBoxOutlined } from '@ant-design/icons';
+import { CalendarOutlined, MedicineBoxOutlined, TeamOutlined } from '@ant-design/icons';
 import * as Ant from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ const items: Ant.MenuProps['items'] = [
   {
     key: 'appointments',
     label: 'Minhas consultas',
-    icon: <MedicineBoxOutlined />,
+    icon: <CalendarOutlined />,
   },
   {
     key: 'specialties',
@@ -19,7 +19,7 @@ const items: Ant.MenuProps['items'] = [
   {
     key: 'doctors',
     label: 'Médicos',
-    icon: <MedicineBoxOutlined />,
+    icon: <TeamOutlined />,
   },
 ];
 
