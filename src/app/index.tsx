@@ -1,3 +1,11 @@
+import { ConfigProvider } from 'antd';
+import { Router } from './routes';
+import { themes } from '../themes';
+
 export const App = () => {
-  return <h1>Test</h1>;
+  return (
+    <ConfigProvider theme={themes.main}>
+      <Router />
+    </ConfigProvider>
+  );
 };
