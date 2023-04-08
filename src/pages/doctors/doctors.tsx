@@ -14,7 +14,7 @@ export const Doctors = () => {
       <Grid>
         {doctors.map(doctor => {
           return (
-            <Link key={doctor.registrationNumber} to={doctor.registrationNumber}>
+            <Link key={doctor.id} to={doctor.id}>
               <Card key={doctor.registrationNumber}>
                 <Picture src={doctor.picture} />
                 <Rating value={doctor.rating} allowHalf />

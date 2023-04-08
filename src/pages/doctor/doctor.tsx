@@ -1,12 +1,16 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import * as Ant from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import styled from '@emotion/styled';
 
 import { Doctor } from '~/entities/doctor';
 import { useState } from 'react';
+import { AddAppointment } from '~/models/add-appointment';
+import { CheckOutlined } from '@ant-design/icons';
 
 export const DoctorPanel = () => {
+  const navigate = useNavigate();
+
   const doctor = useLoaderData() as Doctor;
 
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
@@ -21,6 +25,42 @@ export const DoctorPanel = () => {
         appointment => appointment.scheduledTo.format('YYYYMMDD') === selectedDate.format('YYYYMMDD')
       )
     : [];
+
+  const makeAppointment = async () => {
+    if (!selectedDate || !selectedTime) return;
+
+    const scheduledTo = selectedDate
+      .set('hour', selectedTime.hour())
+      .set('minute', selectedTime.minute())
+      .set('seconds', 0)
+      .set('milliseconds', 0);
+
+    const request: AddAppointment = {
+      scheduledTo: scheduledTo.toISOString(),
+      clinic_id: doctor.clinic_id,
+      doctor_id: doctor.id,
+      patient_id: import.meta.env.VITE_PATIENT_ID,
+    };
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/appointments`, {
+      method: 'POST',
+      body: JSON.stringify(request),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      Ant.notification.success({
+        placement: 'topRight',
+        message: 'Consulta agendada com sucesso',
+        icon: <CheckOutlined />,
+      });
+
+      navigate('/appointments');
+    }
+  };
 
   return (
     <Container>
@@ -74,7 +114,11 @@ export const DoctorPanel = () => {
           </div>
         </div>
       )}
-      {selectedDate && selectedTime && <Ant.Button type="primary">Agendar consulta</Ant.Button>}
+      {selectedDate && selectedTime && (
+        <Ant.Button type="primary" onClick={makeAppointment}>
+          Agendar consulta
+        </Ant.Button>
+      )}
     </Container>
   );
 };

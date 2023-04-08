@@ -25,7 +25,7 @@ export const Router = () => {
           loader: DoctorsLoader,
         },
         {
-          path: '/doctors/:registrationNumber?',
+          path: '/doctors/:id',
           element: <DoctorPanel />,
           loader: DoctorLoader,
         },

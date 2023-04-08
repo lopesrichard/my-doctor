@@ -1,22 +1,39 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Appointment } from '~/entities/appointment';
 import styled from '@emotion/styled';
 import { Avatar, Badge, Divider, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Doctor } from '~/entities/doctor';
 import { AppointmentStatus } from '~/enums/appointment-status';
-import { CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { ActionButton } from '~/components/template/action-button';
 import { useState } from 'react';
 import { AppointmentDetails } from '~/modals/appointment-details';
 import { ClassNames } from '@emotion/react';
+import * as Ant from 'antd';
 import { Dayjs } from 'dayjs';
 
 export const Appointments = () => {
+  const navigate = useNavigate();
+
   const appointments = useLoaderData() as Appointment[];
   const [appointment, setAppointment] = useState<Appointment | null>(null);
 
-  const cancel = (appointment: Appointment) => {};
+  const cancel = async (appointment: Appointment) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.status === 200) {
+      Ant.notification.success({
+        placement: 'topRight',
+        message: 'Cancelamento efetuado com sucesso',
+        icon: <CheckOutlined />,
+      });
+
+      navigate('.');
+    }
+  };
 
   const badges = {
     [AppointmentStatus.OPEN]: {
@@ -44,7 +61,10 @@ export const Appointments = () => {
                 label: 'Cancelar consulta',
                 key: 'cancel',
                 icon: <CloseOutlined />,
-                onClick: () => cancel(appointment),
+                onClick: async menu => {
+                  menu.domEvent.stopPropagation();
+                  await cancel(appointment);
+                },
               },
             ]}
           />

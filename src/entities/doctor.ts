@@ -1,13 +1,14 @@
 import { Appointment } from './appointment';
 import { DoctorAvailability } from './doctor-availability';
-import { MedicalSpecialty } from './medical-specialty';
 
 export type Doctor = {
+  id: string;
   fullname: string;
   registrationNumber: string;
   picture: string;
   rating: number;
+  clinic_id: string;
   availability: DoctorAvailability[];
-  specialties: MedicalSpecialty[];
+  specialties: string[];
   appointments: Pick<Appointment, 'scheduledTo'>[];
 };

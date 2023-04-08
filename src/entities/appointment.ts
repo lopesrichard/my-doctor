@@ -7,6 +7,9 @@ export type Appointment = {
   id: number;
   status: AppointmentStatus;
   scheduledTo: Dayjs;
+  clinic_id: string;
+  doctor_id: string;
+  patient_id: string;
   clinic: Clinic;
-  doctor: Pick<Doctor, 'fullname' | 'picture'>;
+  doctor: Doctor;
 };
