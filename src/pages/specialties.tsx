@@ -1,13 +1,30 @@
-import { useLoaderData } from 'react-router-dom';
+import * as Ant from 'antd';
+import { useEffect, useState } from 'react';
 import * as Icons from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
-import { MedicalSpecialty } from '~/entities/medical-specialty';
+import { Specialty } from '~/entities/specialty';
 import { Divider } from 'antd';
+import { service } from '~/services/specialty';
+import { notify } from '~/notifications';
 
-export const Specialties = () => {
-  const specialties = useLoaderData() as MedicalSpecialty[];
+export const SpecialtiesPage = () => {
+  const [specialties, setSpecialties] = useState<Specialty[]>([]);
+
+  const load = async () => {
+    const response = await service.list();
+    if (response.success) {
+      setSpecialties(response.data);
+    } else {
+      notify.error(response.error);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
   return (
     <Container>
       <Title>Especialidades</Title>

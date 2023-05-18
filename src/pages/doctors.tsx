@@ -1,12 +1,32 @@
-import { useLoaderData } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import * as Ant from 'antd';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-
 import { Doctor } from '~/entities/doctor';
+import { service } from '~/services/doctor';
+import { notify } from '~/notifications';
 
-export const Doctors = () => {
-  const doctors = useLoaderData() as Doctor[];
+export const DoctorsPage = () => {
+  const location = useLocation();
+  const [params] = useSearchParams();
+
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+
+  const load = async () => {
+    const specialty = params.get('specialty');
+    const response = await service.list(specialty);
+    if (response.success) {
+      setDoctors(response.data);
+    } else {
+      notify.error(response.error);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, [location]);
+
   return (
     <Container>
       <Title>Médicos</Title>
@@ -14,7 +34,7 @@ export const Doctors = () => {
       <Grid>
         {doctors.map(doctor => {
           return (
-            <Link key={doctor.id} to={doctor.id}>
+            <Link key={doctor.id} to={doctor.id.toString()}>
               <Card key={doctor.registrationNumber}>
                 <Picture src={doctor.picture} />
                 <Rating value={doctor.rating} allowHalf />

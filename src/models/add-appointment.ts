@@ -1,6 +1,6 @@
 export type AddAppointment = {
   scheduledTo: string;
-  clinic_id: string;
-  doctor_id: string;
-  patient_id: string;
+  clinic_id: number;
+  doctor_id: number;
+  patient_id: number;
 };

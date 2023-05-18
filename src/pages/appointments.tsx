@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Appointment } from '~/entities/appointment';
 import styled from '@emotion/styled';
 import { Avatar, Badge, Divider, Table } from 'antd';
@@ -7,31 +7,41 @@ import { Doctor } from '~/entities/doctor';
 import { AppointmentStatus } from '~/enums/appointment-status';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { ActionButton } from '~/components/template/action-button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppointmentDetails } from '~/modals/appointment-details';
 import { ClassNames } from '@emotion/react';
 import * as Ant from 'antd';
 import { Dayjs } from 'dayjs';
+import { service as patientService } from '~/services/patient';
+import { service as appointmentService } from '~/services/appointments';
+import { notify } from '~/notifications';
 
-export const Appointments = () => {
+export const AppointmentsPage = () => {
   const navigate = useNavigate();
 
-  const appointments = useLoaderData() as Appointment[];
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [appointment, setAppointment] = useState<Appointment | null>(null);
 
+  const load = async () => {
+    const response = await patientService.appointments();
+    if (response.success) {
+      setAppointments(response.data);
+    } else {
+      notify.error(response.error);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
   const cancel = async (appointment: Appointment) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}`, {
-      method: 'DELETE',
-    });
-
-    if (response.status === 200) {
-      Ant.notification.success({
-        placement: 'topRight',
-        message: 'Cancelamento efetuado com sucesso',
-        icon: <CheckOutlined />,
-      });
-
-      navigate('.');
+    const response = await appointmentService.cancel(appointment.id);
+    if (response.success) {
+      notify.success('Cancelamento efetuado com sucesso');
+      await load();
+    } else {
+      notify.success('Ocorreu um erro ao efetuar o cancelamento');
     }
   };
 

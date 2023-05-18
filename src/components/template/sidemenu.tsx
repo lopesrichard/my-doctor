@@ -1,6 +1,5 @@
 import { CalendarOutlined, MedicineBoxOutlined, TeamOutlined } from '@ant-design/icons';
 import * as Ant from 'antd';
-import Sider from 'antd/es/layout/Sider';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -30,7 +29,7 @@ export const SideMenu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [key, setKey] = useState(extractKeyFromPathname(location.pathname));
 
   useEffect(() => {
@@ -39,15 +38,20 @@ export const SideMenu = () => {
 
   return (
     <Sider
-      width={breakpoints.lg ? 300 : 150}
+      width={300}
       collapsible
-      collapsed={collapsed}
+      collapsed={!breakpoints.lg || collapsed}
       onCollapse={value => setCollapsed(value)}
+      trigger={!breakpoints.lg && null}
     >
       <Menu mode="inline" selectedKeys={[key]} items={items} onClick={evt => navigate(evt.key)} />
     </Sider>
   );
 };
+
+const Sider = styled(Ant.Layout.Sider)`
+  width: 300px !important;
+`;
 
 const Menu = styled(Ant.Menu)`
   height: 100%;

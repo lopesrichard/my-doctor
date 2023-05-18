@@ -1,6 +1,6 @@
 import { Icon } from '~/enums/icon';
 
-export type MedicalSpecialty = {
+export type Specialty = {
   code: string;
   description: string;
   icon: Icon;
