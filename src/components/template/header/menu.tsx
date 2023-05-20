@@ -5,8 +5,10 @@ import * as Router from 'react-router-dom';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 import { useEffect, useState } from 'react';
 import { router } from '~/app/routes';
-import { service } from '~/services/patient';
+import { service as PatientService } from '~/services/patient';
+import { service as DoctorService } from '~/services/doctor';
 import { storage } from '~/storage/auth';
+import { Role } from '~/enums/role';
 
 const items: ItemType[] = [
   { label: <Router.Link to="account">Minha conta</Router.Link>, key: 'account', icon: <AccountBookOutlined /> },
@@ -23,10 +25,12 @@ const items: ItemType[] = [
 ];
 
 export const Menu = () => {
+  const auth = storage.read();
+
   const [picture, setPicture] = useState<string>();
 
   const load = async () => {
-    const response = await service.find();
+    const response = auth.role === Role.PATIENT ? await PatientService.self() : await DoctorService.self();
     if (response.success) setPicture(response.data.picture);
   };
 

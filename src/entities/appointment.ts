@@ -1,6 +1,7 @@
 import { AppointmentStatus } from '~/enums/appointment-status';
 import { Doctor } from './doctor';
 import { Clinic } from './clinic';
+import { Patient } from './patient';
 import { Dayjs } from 'dayjs';
 
 export type Appointment = {
@@ -12,4 +13,5 @@ export type Appointment = {
   patient_id: string;
   clinic: Clinic;
   doctor: Doctor;
+  patient: Patient;
 };

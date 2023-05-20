@@ -11,12 +11,20 @@ export class DoctorService extends Service {
     return await this.get<Doctor>(`/${id}`);
   }
 
+  async self() {
+    return await this.get<Doctor>('/self');
+  }
+
   public async list(specialty: string | null) {
     return await this.get<Doctor[]>('/', { specialty });
   }
 
   async appointments(id: number) {
     return await this.get<Appointment[]>(`/${id}/appointments`);
+  }
+
+  async selfAppointments() {
+    return await this.get<Appointment[]>('/self/appointments');
   }
 }
 

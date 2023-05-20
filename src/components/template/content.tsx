@@ -19,7 +19,7 @@ const Background = styled(Layout.Content)<ResponsiveProps>`
   padding-bottom: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
   padding-left: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
   padding-right: ${({ breakpoints }) => (breakpoints.lg ? '50px' : '10px')};
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
 `;
 
 const Container = styled.div<ResponsiveProps>`

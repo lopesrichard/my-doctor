@@ -1,4 +1,6 @@
+import { Role } from '~/enums/role';
+
 export interface JwtPayload {
-  userId: number;
-  patientId: number;
+  sub: number;
+  role: Role;
 }

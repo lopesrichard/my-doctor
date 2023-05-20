@@ -5,25 +5,29 @@ import { Avatar, Badge, Divider, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Doctor } from '~/entities/doctor';
 import { AppointmentStatus } from '~/enums/appointment-status';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import { ActionButton } from '~/components/template/action-button';
 import { useEffect, useState } from 'react';
 import { AppointmentDetails } from '~/modals/appointment-details';
 import { ClassNames } from '@emotion/react';
-import * as Ant from 'antd';
 import { Dayjs } from 'dayjs';
 import { service as patientService } from '~/services/patient';
 import { service as appointmentService } from '~/services/appointments';
+import { service as doctorService } from '~/services/doctor';
 import { notify } from '~/notifications';
+import { storage } from '~/storage/auth';
+import { Role } from '~/enums/role';
+import { Patient } from '~/entities/patient';
 
 export const AppointmentsPage = () => {
-  const navigate = useNavigate();
+  const auth = storage.read();
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [appointment, setAppointment] = useState<Appointment | null>(null);
 
   const load = async () => {
-    const response = await patientService.appointments();
+    const response =
+      auth.role === Role.PATIENT ? await patientService.selfAppointments() : await doctorService.selfAppointments();
     if (response.success) {
       setAppointments(response.data);
     } else {
@@ -85,19 +89,32 @@ export const AppointmentsPage = () => {
       title: 'Data',
       render: (scheduled: Dayjs) => scheduled.format('DD/MM/YYYY HH[h]mm'),
     },
-    {
+  ];
+
+  if (auth.role === Role.PATIENT) {
+    columns.push({
       dataIndex: 'doctor',
       title: 'Médico',
-      render: (doctor: Doctor) => <DoctorAvatar doctor={doctor} />,
+      render: (doctor: Doctor) => <PersonAvatar person={doctor} />,
       responsive: ['lg'],
-    },
-    {
-      dataIndex: 'status',
-      title: 'Status',
-      render: (status: AppointmentStatus) => <Badge {...badges[status]} />,
+    });
+  }
+
+  if (auth.role === Role.DOCTOR) {
+    columns.push({
+      dataIndex: 'patient',
+      title: 'Paciente',
+      render: (patient: Patient) => <PersonAvatar person={patient} />,
       responsive: ['lg'],
-    },
-  ];
+    });
+  }
+
+  columns.push({
+    dataIndex: 'status',
+    title: 'Status',
+    render: (status: AppointmentStatus) => <Badge {...badges[status]} />,
+    responsive: ['lg'],
+  });
 
   return (
     <>
@@ -129,11 +146,11 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const DoctorAvatar = ({ doctor }: { doctor: Doctor }) => {
+const PersonAvatar = ({ person }: { person: Doctor | Patient }) => {
   return (
     <div>
-      <Avatar src={doctor.picture} css={{ marginRight: 10 }} />
-      <span>{doctor.fullname}</span>
+      <Avatar src={person.picture} css={{ marginRight: 10 }} />
+      <span>{person.fullname}</span>
     </div>
   );
 };

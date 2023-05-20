@@ -4,6 +4,8 @@ import { Appointment } from '~/entities/appointment';
 import { FunctionComponent } from 'react';
 import { AppointmentLocation } from './appointment-location';
 import { AppointmentStatus } from '~/enums/appointment-status';
+import { storage } from '~/storage/auth';
+import { Role } from '~/enums/role';
 
 export type AppointmentDetailsProps = ModalProps & {
   appointment: Appointment;
@@ -25,6 +27,7 @@ const badges = {
 };
 
 export const AppointmentDetails: FunctionComponent<AppointmentDetailsProps> = ({ appointment, ...props }) => {
+  const auth = storage.read();
   return (
     <Modal {...props} open footer={false} width="80%">
       <Container>
@@ -36,7 +39,11 @@ export const AppointmentDetails: FunctionComponent<AppointmentDetailsProps> = ({
           <Descriptions.Item label="Data">
             {appointment.scheduledTo.format('dddd, DD [de] MMMM [de] YYYY [às] HH[h]mm')}
           </Descriptions.Item>
-          <Descriptions.Item label="Médico Responsável">{appointment.doctor.fullname}</Descriptions.Item>
+          {auth.role === Role.PATIENT ? (
+            <Descriptions.Item label="Médico Responsável">{appointment.doctor.fullname}</Descriptions.Item>
+          ) : (
+            <Descriptions.Item label="Paciente">{appointment.patient.fullname}</Descriptions.Item>
+          )}
           <Descriptions.Item label="Endereço">{appointment.clinic.address.addressLine}</Descriptions.Item>
           <Descriptions.Item>
             <AppointmentLocation appointment={appointment} />

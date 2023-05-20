@@ -59,6 +59,7 @@ export abstract class Service {
       return { success: true, data: response.data };
     } catch (e) {
       const error = e as AxiosError<ErrorData>;
+      if (error.response?.status === 401 && location.pathname !== '/login') location.href = '/login';
       return { success: false, error: error.response?.data.message ?? 'Ocorreu um problema no servidor' };
     }
   }

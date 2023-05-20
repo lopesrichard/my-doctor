@@ -61,7 +61,6 @@ export const DoctorPage = () => {
       scheduledTo: scheduledTo.toISOString(),
       clinic_id: doctor.clinics[0].id,
       doctor_id: doctor.id,
-      patient_id: import.meta.env.VITE_PATIENT_ID,
     });
 
     if (response.success) {

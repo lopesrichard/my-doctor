@@ -1,16 +1,20 @@
 import * as Ant from 'antd';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Credentials } from '~/models/credentials';
 import { service } from '~/services/auth';
 import { storage } from '~/storage/auth';
 import { useNavigate } from 'react-router-dom';
-import { notify } from '~/notifications';
 
 export const Login = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    storage.clear();
+  }, []);
 
   const login = async (values: Credentials) => {
     setLoading(true);
@@ -21,7 +25,7 @@ export const Login = () => {
       storage.store(response.data);
       navigate('/');
     } else {
-      notify.error(response.error);
+      setError(response.error);
     }
 
     setLoading(false);
@@ -34,7 +38,8 @@ export const Login = () => {
           <Ant.Col xs={24} sm={24} md={16} lg={12} xl={8} xxl={6}>
             <Card>
               <Image src="/logo.png" />
-              <Ant.Form onFinish={login}>
+              <Alert type="error" message={error} style={{ visibility: error ? 'visible' : 'hidden' }} />
+              <Ant.Form onFinish={login} onChange={() => setError(null)}>
                 <Item name="username" rules={[{ required: true, message: 'Informe o usuário' }]}>
                   <Input placeholder="Usuário" type="text" size="large" autoComplete="off" />
                 </Item>
@@ -84,4 +89,9 @@ const Input = styled(Ant.Input)``;
 
 const Button = styled(Ant.Button)`
   width: 100%;
+`;
+
+const Alert = styled(Ant.Alert)`
+  height: 40px;
+  margin-bottom: 24px;
 `;
